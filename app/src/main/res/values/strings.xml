@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Client</string>
+    <string name="edit_text">Enter your text</string>
+    <string name="send_button">Send</string>
+    <string name="register_button">Registrame</string>
+    <string name="user_registered">USER_HAS_REGISTERED</string>
+    <string name="global_string">GLOBAL_PARAMETERS</string>
+    <string name="parameters_file">activities-parameters</string>
+    <string name="new_group">Crear Grupo</string>
+    <string name="group_name">Nombre del grupo</string>
+</resources>
