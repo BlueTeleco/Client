@@ -8,4 +8,5 @@
     <string name="parameters_file">activities-parameters</string>
     <string name="new_group">Crear Grupo</string>
     <string name="group_name">Nombre del grupo</string>
+    <string name="user_phone">MY_PHONE</string>
 </resources>

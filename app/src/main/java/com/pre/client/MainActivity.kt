@@ -55,6 +55,8 @@ class MainActivity : AppCompatActivity() {
 
             val pks = String(pk.toBytes())
 
+            savePhone(phone.toString())
+
             bg {
                 val params = "uname=$uname&phone=$phone&pk=$pks"
                 val url = URL("http://$host:8080/new-user")
@@ -83,6 +85,14 @@ class MainActivity : AppCompatActivity() {
                 putString(getString(R.string.global_string), globalString)
                 commit()
             }
+        }
+    }
+
+    fun savePhone(phone: String) {
+        val preferences = getSharedPreferences(getString(R.string.parameters_file), Context.MODE_PRIVATE)
+        with(preferences.edit()) {
+            putString(getString(R.string.user_phone), phone)
+            commit()
         }
     }
 }

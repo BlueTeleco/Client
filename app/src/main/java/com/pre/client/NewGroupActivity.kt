@@ -1,5 +1,6 @@
 package com.pre.client
 
+import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -21,7 +22,8 @@ class NewGroupActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_group)
 
-        // get user from database
+        admin_phone = getSharedPreferences(getString(R.string.parameters_file), Context.MODE_PRIVATE)
+                     .getString(getString(R.string.user_phone), "error")
     }
 
     fun createGroup(view: View) {
