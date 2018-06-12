@@ -1,9 +1,10 @@
-package com.pre.client
+package com.pre.client.activities
 
 import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import com.pre.client.R
 import kotlinx.android.synthetic.main.activity_new_group.*
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async

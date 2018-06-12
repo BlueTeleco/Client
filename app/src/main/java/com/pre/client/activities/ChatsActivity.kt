@@ -1,4 +1,4 @@
-package com.pre.client
+package com.pre.client.activities
 
 import android.content.Context
 import android.support.v7.app.AppCompatActivity
@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
+import com.pre.client.R
+import com.pre.client.adapters.ChatsAdapter
 import kotlinx.android.synthetic.main.activity_chats.*
 import kotlinx.coroutines.experimental.async
 import org.jetbrains.anko.startActivity
@@ -26,7 +28,7 @@ class ChatsActivity : AppCompatActivity() {
 
         layoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = layoutManager
-        recyclerView.adapter = ConversationAdapter(chats, chatIds)
+        recyclerView.adapter = ChatsAdapter(chats, chatIds)
 
         getChats()
 
@@ -65,8 +67,6 @@ class ChatsActivity : AppCompatActivity() {
             }
 
             val chatsStr = chatsDef.await().split("-")
-            chats.clear()
-            chatIds.clear()
             chatsStr.forEach { chat ->
                 val elements = chat.split(":")
                 chatIds.add(elements[0])

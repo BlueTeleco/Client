@@ -1,8 +1,9 @@
-package com.pre.client
+package com.pre.client.activities
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
+import com.pre.client.R
 
 import nics.crypto.proxy.afgh.AFGHProxyReEncryption
 

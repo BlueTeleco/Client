@@ -13,35 +13,35 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ChatsActivity" />
+        <activity android:name=".activities.ChatsActivity" />
         <activity
-            android:name=".ConversationActivity"
-            android:parentActivityName=".ChatsActivity">
+            android:name=".activities.ConversationActivity"
+            android:parentActivityName=".activities.ChatsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ChatsActivity" />
+                android:value=".activities.ChatsActivity" />
         </activity>
         <activity
-            android:name=".DisplayMessageActivity"
-            android:parentActivityName=".ConversationActivity">
+            android:name=".activities.DisplayMessageActivity"
+            android:parentActivityName=".activities.ConversationActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ConversationActivity" />
+                android:value=".activities.ConversationActivity" />
         </activity>
 
         <activity
-            android:name=".NewGroupActivity"
-            android:parentActivityName=".ChatsActivity">
+            android:name=".activities.NewGroupActivity"
+            android:parentActivityName=".activities.ChatsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ChatsActivity" />
+                android:value=".activities.ChatsActivity" />
 
         </activity>
     </application>
