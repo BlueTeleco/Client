@@ -3,6 +3,7 @@ package com.pre.client.activities
 import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import com.pre.client.R
 import kotlinx.android.synthetic.main.activity_main.*
@@ -22,8 +23,8 @@ var global: AFGHGlobalParameters? = null
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var globalString: String
     private var registered = false
-    private var globalString = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,7 +57,10 @@ class MainActivity : AppCompatActivity() {
 
             val pks = String(pk.toBytes())
 
-            savePhone(phone.toString())
+            Log.e("pks ---> ", pks)
+            Log.e("Converted ---> ", pks)
+
+            save(uname.toString(), phone.toString())
 
             bg {
                 val params = "uname=$uname&phone=$phone&pk=$pks"
@@ -89,10 +93,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun savePhone(phone: String) {
+    fun save(user: String, phone: String) {
         val preferences = getSharedPreferences(getString(R.string.parameters_file), Context.MODE_PRIVATE)
         with(preferences.edit()) {
             putString(getString(R.string.user_phone), phone)
+            putString(getString(R.string.user_name), user)
             commit()
         }
     }

@@ -1,11 +1,10 @@
 package com.pre.client.activities
 
-import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import com.pre.client.R
-import kotlinx.android.synthetic.main.activity_new_group.*
+import kotlinx.android.synthetic.main.activity_new_member.*
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
 import org.jetbrains.anko.clearTop
@@ -15,26 +14,25 @@ import java.io.OutputStreamWriter
 import java.net.HttpURLConnection
 import java.net.URL
 
-class NewGroupActivity : AppCompatActivity() {
+class NewMemberActivity : AppCompatActivity() {
 
-    private lateinit var admin_phone: String
+    private lateinit var idChat: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_new_group)
+        setContentView(R.layout.activity_new_member)
 
-        admin_phone = getSharedPreferences(getString(R.string.parameters_file), Context.MODE_PRIVATE)
-                     .getString(getString(R.string.user_phone), "error")
+        idChat = intent.getStringExtra(getString(R.string.chat_id))
     }
 
-    fun createGroup(view: View) {
+    fun addMember(view: View) {
         async(UI) {
-            val gname = group_name.text
+            val uphone = new_member.text
             bg {
-                val params = "admin-ph=$admin_phone&gname=$gname"
-                val url = URL("http://$host:8080/new-group")
+                val params = "phone=$uphone"
+                val url = URL("http://$host:8080/add-user/$idChat")
                 with(url.openConnection() as HttpURLConnection) {
-                    requestMethod = "PUT"
+                    requestMethod = "POST"
                     doOutput = true
                     OutputStreamWriter(outputStream).apply {
                         write(params)
@@ -44,6 +42,6 @@ class NewGroupActivity : AppCompatActivity() {
                 }
             }
         }
-        startActivity(intentFor<ChatsActivity>().clearTop())
+        startActivity(intentFor<ConversationActivity>().clearTop())
     }
 }

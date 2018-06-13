@@ -8,6 +8,7 @@ import android.view.Menu
 import android.view.MenuItem
 import com.pre.client.R
 import com.pre.client.adapters.ChatsAdapter
+import com.pre.client.model.Chat
 import kotlinx.android.synthetic.main.activity_chats.*
 import kotlinx.coroutines.experimental.async
 import org.jetbrains.anko.startActivity
@@ -19,8 +20,7 @@ import java.net.URL
 class ChatsActivity : AppCompatActivity() {
 
     private lateinit var layoutManager: LinearLayoutManager
-    private var chats = arrayListOf<String>()
-    private var chatIds = arrayListOf<String>()
+    private var chats = arrayListOf<Chat>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,11 +28,35 @@ class ChatsActivity : AppCompatActivity() {
 
         layoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = layoutManager
-        recyclerView.adapter = ChatsAdapter(chats, chatIds)
+        recyclerView.adapter = ChatsAdapter(chats)
 
         getChats()
-
         global = global ?: globalParameters()
+    }
+
+    fun globalParameters(): AFGHGlobalParameters {
+        val globalStr = getSharedPreferences(getString(R.string.parameters_file), Context.MODE_PRIVATE)
+                        .getString(getString(R.string.global_string), "")
+
+        return AFGHGlobalParameters(globalStr)
+    }
+
+    fun getChats() {
+        val phone = getSharedPreferences(getString(R.string.parameters_file), Context.MODE_PRIVATE)
+                    .getString(getString(R.string.user_phone), "")
+
+        async(UI) {
+            val chatsDef = bg {
+                URL("http://$host:8080/chats?phone=$phone").readText()
+            }
+
+            val chatsStr = chatsDef.await().split("\n")
+            chatsStr.forEach { chat ->
+                val (id, name) = chat.split(":")
+                chats.add(Chat(id, name))
+                recyclerView.adapter.notifyDataSetChanged()
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -48,31 +72,5 @@ class ChatsActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    fun globalParameters(): AFGHGlobalParameters {
-        val globalStr = getSharedPreferences(getString(R.string.parameters_file), Context.MODE_PRIVATE)
-                        .getString(getString(R.string.global_string), "")
-
-        return AFGHGlobalParameters(globalStr)
-    }
-
-    fun getChats() {
-        val phone = getSharedPreferences(getString(R.string.parameters_file), Context.MODE_PRIVATE)
-                .getString(getString(R.string.user_phone), "")
-
-        async(UI) {
-            val chatsDef = bg {
-                URL("http://$host:8080/chats?phone=$phone").readText()
-            }
-
-            val chatsStr = chatsDef.await().split("-")
-            chatsStr.forEach { chat ->
-                val elements = chat.split(":")
-                chatIds.add(elements[0])
-                chats.add(elements[1])
-                recyclerView.adapter.notifyDataSetChanged()
-            }
-        }
     }
 }

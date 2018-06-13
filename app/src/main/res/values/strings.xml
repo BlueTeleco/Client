@@ -9,4 +9,8 @@
     <string name="new_group">Crear Grupo</string>
     <string name="group_name">Nombre del grupo</string>
     <string name="user_phone">MY_PHONE</string>
+    <string name="new_member">Añadir Usuario</string>
+    <string name="user_name">MY_NAME</string>
+    <string name="new_member_phone">Member Phone</string>
+    <string name="chat_id">CHAT_ID</string>
 </resources>

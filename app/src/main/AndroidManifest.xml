@@ -23,7 +23,8 @@
         <activity android:name=".activities.ChatsActivity" />
         <activity
             android:name=".activities.ConversationActivity"
-            android:parentActivityName=".activities.ChatsActivity">
+            android:parentActivityName=".activities.ChatsActivity"
+            android:launchMode="singleTop">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.ChatsActivity" />
@@ -35,14 +36,20 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.ConversationActivity" />
         </activity>
-
         <activity
             android:name=".activities.NewGroupActivity"
             android:parentActivityName=".activities.ChatsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.ChatsActivity" />
+        </activity>
+        <activity
+            android:name=".activities.NewMemberActivity"
+            android:parentActivityName=".activities.ConversationActivity">
 
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.ChatsActivity" />
         </activity>
     </application>
 
