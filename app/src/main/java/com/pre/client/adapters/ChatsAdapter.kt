@@ -10,8 +10,6 @@ import com.pre.client.model.Chat
 import kotlinx.android.synthetic.main.conversation_item.view.title
 import org.jetbrains.anko.startActivity
 
-const val SELECTED_CHAT = "com.pre.client.ID"
-
 class ChatsAdapter(private val chats: ArrayList<Chat>) : RecyclerView.Adapter<ChatsAdapter.TextHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TextHolder {
@@ -36,7 +34,7 @@ class ChatsAdapter(private val chats: ArrayList<Chat>) : RecyclerView.Adapter<Ch
 
         override fun onClick(v: View?) {
             val context = itemView.context
-            context.startActivity<ConversationActivity>(SELECTED_CHAT to id)
+            context.startActivity<ConversationActivity>(context.getString(R.string.selected_chat) to id)
         }
 
         fun bindText(chat: Chat) {

@@ -1,6 +1,5 @@
 package com.pre.client.activities
 
-import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
@@ -9,6 +8,7 @@ import android.view.MenuItem
 import com.pre.client.R
 import com.pre.client.adapters.ChatsAdapter
 import com.pre.client.model.Chat
+import com.pre.client.utils.read
 import kotlinx.android.synthetic.main.activity_chats.*
 import kotlinx.coroutines.experimental.async
 import org.jetbrains.anko.startActivity
@@ -35,15 +35,12 @@ class ChatsActivity : AppCompatActivity() {
     }
 
     fun globalParameters(): AFGHGlobalParameters {
-        val globalStr = getSharedPreferences(getString(R.string.parameters_file), Context.MODE_PRIVATE)
-                        .getString(getString(R.string.global_string), "")
-
+        val globalStr = read(this, getString(R.string.global_string), "")
         return AFGHGlobalParameters(globalStr)
     }
 
     fun getChats() {
-        val phone = getSharedPreferences(getString(R.string.parameters_file), Context.MODE_PRIVATE)
-                    .getString(getString(R.string.user_phone), "")
+        val phone = read(this, getString(R.string.user_phone), "")
 
         async(UI) {
             val chatsDef = bg {

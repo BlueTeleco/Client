@@ -30,13 +30,6 @@
                 android:value=".activities.ChatsActivity" />
         </activity>
         <activity
-            android:name=".activities.DisplayMessageActivity"
-            android:parentActivityName=".activities.ConversationActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.ConversationActivity" />
-        </activity>
-        <activity
             android:name=".activities.NewGroupActivity"
             android:parentActivityName=".activities.ChatsActivity">
             <meta-data

@@ -46,7 +46,7 @@ class ConversationAdapter(private val name: String, private val messages: ArrayL
         }
     }
 
-    inner class UserHolder(v: View) : RecyclerView.ViewHolder(v), View.OnClickListener {
+    class UserHolder(v: View) : RecyclerView.ViewHolder(v), View.OnClickListener {
 
         private val view = v
 
@@ -58,7 +58,7 @@ class ConversationAdapter(private val name: String, private val messages: ArrayL
         }
     }
 
-    inner class OtherHolder(v: View) : RecyclerView.ViewHolder(v), View.OnClickListener {
+    class OtherHolder(v: View) : RecyclerView.ViewHolder(v), View.OnClickListener {
 
         private val view = v
 
