@@ -10,14 +10,13 @@ import android.view.View
 import com.pre.client.R
 import com.pre.client.adapters.ConversationAdapter
 import com.pre.client.model.Message
+import com.pre.client.utils.get
 import com.pre.client.utils.read
+import com.pre.client.utils.send
 import kotlinx.android.synthetic.main.activity_conversation.*
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.async
 import nics.crypto.proxy.afgh.AFGHProxyReEncryption
-import org.jetbrains.anko.coroutines.experimental.bg
 import org.jetbrains.anko.startActivity
-import java.net.URL
+import java.net.URLEncoder
 
 class ConversationActivity : AppCompatActivity() {
 
@@ -32,13 +31,38 @@ class ConversationActivity : AppCompatActivity() {
         setContentView(R.layout.activity_conversation)
 
         name = read(this, getString(R.string.user_name), "")
+        id = intent.getStringExtra(getString(R.string.selected_chat))
+        sendReKey()
 
         layoutManager = LinearLayoutManager(this)
         layoutManager.stackFromEnd = true
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = ConversationAdapter(name, messages)
 
-        id = intent.getStringExtra(getString(R.string.selected_chat))
+        // sincronize
+    }
+
+    fun sendReKey() {
+        val phone = read(this, getString(R.string.user_phone), "")
+        get("http://$host:8080/rencryption-key/$id/$phone") {
+            if (it == "") {
+                get("http://$host:8080/pubkey-admin/$id") {
+                    val pk = Base64.decode(it, Base64.DEFAULT)
+                    val sk = getSecretKey()
+                    val rk = AFGHProxyReEncryption.generateReEncryptionKey(pk, sk, global)
+                    val rk64 = Base64.encodeToString(rk, Base64.DEFAULT)
+
+                    val charset = "UTF-8"
+                    val params = "phone=${URLEncoder.encode(phone, charset)}&chat=$id&rk=${URLEncoder.encode(rk64, charset)}"
+                    send("PUT", "/add-rekey", params)
+                }
+            }
+        }
+    }
+
+    fun getSecretKey(): ByteArray {
+        val sk64 = read(this, getString(R.string.user_secret), "")
+        return Base64.decode(sk64, Base64.DEFAULT)
     }
 
     fun sendMessage(view: View) {
@@ -54,12 +78,8 @@ class ConversationActivity : AppCompatActivity() {
     fun sendToServer(message: String) {
         val phone = read(this, getString(R.string.user_phone), "")
 
-        async(UI) {
-            val pubKeyStr = bg {
-                URL("http://$host:8080/public-key?phone=$phone").readText()
-            }
-            val pk = Base64.decode(pubKeyStr.await(), Base64.DEFAULT)
-
+        get("http://$host:8080/public-key/$phone") {
+            val pk = Base64.decode(it, Base64.DEFAULT)
             val encrypted = AFGHProxyReEncryption.secondLevelEncryption(message.toByteArray(), pk, global)
             val cryptoStr = Base64.encodeToString(encrypted, Base64.DEFAULT)
         }

@@ -24,3 +24,12 @@ fun send(method: String, resource: String, params: String) {
         }
     }
 }
+
+fun get(url: String, f: (it: String) -> Unit) {
+    async(UI) {
+        val response = bg {
+            URL(url).readText()
+        }
+        f(response.await())
+    }
+}

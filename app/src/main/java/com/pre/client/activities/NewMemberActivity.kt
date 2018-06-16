@@ -5,16 +5,13 @@ import android.os.Bundle
 import android.util.Base64
 import android.view.View
 import com.pre.client.R
+import com.pre.client.utils.get
 import com.pre.client.utils.read
 import com.pre.client.utils.send
 import kotlinx.android.synthetic.main.activity_new_member.*
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.async
 import nics.crypto.proxy.afgh.AFGHProxyReEncryption
 import org.jetbrains.anko.clearTop
-import org.jetbrains.anko.coroutines.experimental.bg
 import org.jetbrains.anko.intentFor
-import java.net.URL
 import java.net.URLEncoder
 
 class NewMemberActivity : AppCompatActivity() {
@@ -30,11 +27,9 @@ class NewMemberActivity : AppCompatActivity() {
 
     fun addMember(view: View) {
         val uphone = new_member.text.toString()
-        async(UI) {
-            val pubKeyStr = bg {
-                URL("http://$host:8080/public-key?phone=$uphone").readText()
-            }
-            val pk = Base64.decode(pubKeyStr.await(), Base64.DEFAULT)
+
+        get("http://$host:8080/public-key/$uphone") {
+            val pk = Base64.decode(it, Base64.DEFAULT)
             val sk = getSecretKey()
             val rk = AFGHProxyReEncryption.generateReEncryptionKey(pk, sk, global)
             val rk64 = Base64.encodeToString(rk, Base64.DEFAULT)

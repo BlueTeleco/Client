@@ -6,17 +6,14 @@ import android.os.Bundle
 import android.util.Base64
 import android.view.View
 import com.pre.client.R
+import com.pre.client.utils.get
 import com.pre.client.utils.send
 import com.pre.client.utils.shareString
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.async
 
 import nics.crypto.proxy.afgh.AFGHGlobalParameters
 import nics.crypto.proxy.afgh.AFGHProxyReEncryption
-import org.jetbrains.anko.coroutines.experimental.bg
 import org.jetbrains.anko.startActivity
-import java.net.URL
 import java.net.URLEncoder
 
 const val host = "10.0.2.2"
@@ -65,12 +62,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun getGlobal() {
-        async(UI) {
-            val globalStr = bg {
-                URL("http://$host:8080/").readText()
-            }
-            globalString = globalStr.await()
-            shareString(this@MainActivity, getString(R.string.global_string), globalString)
+        get("http://$host:8080/") {
+            globalString = it
+            shareString(this@MainActivity, getString(R.string.global_string), it)
         }
     }
 
