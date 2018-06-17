@@ -82,6 +82,7 @@ class ConversationActivity : AppCompatActivity() {
             val pk = Base64.decode(it, Base64.DEFAULT)
             val encrypted = AFGHProxyReEncryption.secondLevelEncryption(message.toByteArray(), pk, global)
             val cryptoStr = Base64.encodeToString(encrypted, Base64.DEFAULT)
+            send("POST", "/send/$id", "text=$cryptoStr&phone=$phone")
         }
     }
 
