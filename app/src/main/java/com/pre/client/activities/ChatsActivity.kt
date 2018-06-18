@@ -1,7 +1,7 @@
 package com.pre.client.activities
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
@@ -11,8 +11,8 @@ import com.pre.client.model.Chat
 import com.pre.client.utils.get
 import com.pre.client.utils.read
 import kotlinx.android.synthetic.main.activity_chats.*
-import org.jetbrains.anko.startActivity
 import nics.crypto.proxy.afgh.AFGHGlobalParameters
+import org.jetbrains.anko.startActivity
 
 class ChatsActivity : AppCompatActivity() {
 
@@ -31,12 +31,12 @@ class ChatsActivity : AppCompatActivity() {
         global = global ?: globalParameters()
     }
 
-    fun globalParameters(): AFGHGlobalParameters {
+    private fun globalParameters(): AFGHGlobalParameters {
         val globalStr = read(this, getString(R.string.global_string), "")
         return AFGHGlobalParameters(globalStr)
     }
 
-    fun getChats() {
+    private fun getChats() {
         val phone = read(this, getString(R.string.user_phone), "")
 
         get("http://$host:8080/chats/$phone") {
