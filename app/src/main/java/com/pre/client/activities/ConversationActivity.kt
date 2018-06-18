@@ -14,6 +14,9 @@ import kotlinx.android.synthetic.main.activity_conversation.*
 import nics.crypto.proxy.afgh.AFGHProxyReEncryption
 import org.jetbrains.anko.startActivity
 
+/**
+ * Activity to show a conversation and send messages.
+ */
 class ConversationActivity : AppCompatActivity() {
 
     private lateinit var layoutManager: LinearLayoutManager
@@ -23,13 +26,18 @@ class ConversationActivity : AppCompatActivity() {
     private lateinit var name: String
     private lateinit var phone: String
 
+    /**
+     * When creating the activity set up the activity,
+     * create the reencryption key if necessary and
+     * set up the list of messages.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_conversation)
 
+        id = intent.getStringExtra(getString(R.string.selected_chat))
         name = read(this, getString(R.string.user_name), "")
         phone = read(this, getString(R.string.user_phone), "")
-        id = intent.getStringExtra(getString(R.string.selected_chat))
         sendReKey()
 
         layoutManager = LinearLayoutManager(this)
@@ -40,6 +48,10 @@ class ConversationActivity : AppCompatActivity() {
         getMessages()
     }
 
+    /**
+     * If there is not a reencryption key from the user to the
+     * admin, create it and send it to the server.
+     */
     private fun sendReKey() {
         get("http://$host:8080/rencryption-key/$id/$phone") {
             if (it == "") {
@@ -55,6 +67,10 @@ class ConversationActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Get messages from the chat, decrypt them and add them to the
+     * ListView.
+     */
     private fun getMessages() {
         get("http://$host:8080/sincronize/$id/$phone?order=0") {
             val messagesStr = it.split("<--->")
@@ -76,8 +92,15 @@ class ConversationActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Get stored secret key as a ByteArray.
+     */
     private fun getSecretKey(): ByteArray = decode(read(this, getString(R.string.user_secret), ""))
 
+    /**
+     * Add the message to be sent to the ListView and
+     * send it to the server.
+     */
     fun sendMessage(view: View) {
         val message = editText.text.toString()
 
@@ -88,6 +111,9 @@ class ConversationActivity : AppCompatActivity() {
         editText.text.clear()
     }
 
+    /**
+     * Encrypt and send message to the server.
+     */
     private fun sendToServer(message: String) {
         get("http://$host:8080/public-key/$phone") {
             val pk = decode(it)
@@ -97,11 +123,18 @@ class ConversationActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Inflate the options menu.
+     */
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.conversation_options, menu)
         return true
     }
 
+    /**
+     * When selecting the appropiate item change to the NewMemberActivity
+     * to add new members to the chat.
+     */
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.new_member -> {

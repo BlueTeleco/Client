@@ -8,6 +8,10 @@ import java.io.OutputStreamWriter
 import java.net.HttpURLConnection
 import java.net.URL
 
+/**
+ * Send a PUT or POST request to a specified resource with
+ * the specified params.
+ */
 fun send(method: String, resource: String, params: String) {
     async(UI) {
         bg {
@@ -25,6 +29,10 @@ fun send(method: String, resource: String, params: String) {
     }
 }
 
+/**
+ * Send a GET request and execute the specified
+ * function with the response.
+ */
 fun get(url: String, f: (it: String) -> Unit) {
     async(UI) {
         val response = bg {

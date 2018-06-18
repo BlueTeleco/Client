@@ -7,7 +7,6 @@ import android.view.View
 import com.pre.client.R
 import com.pre.client.utils.*
 import kotlinx.android.synthetic.main.activity_main.*
-
 import nics.crypto.proxy.afgh.AFGHGlobalParameters
 import nics.crypto.proxy.afgh.AFGHProxyReEncryption
 import org.jetbrains.anko.startActivity
@@ -15,11 +14,21 @@ import org.jetbrains.anko.startActivity
 const val host = "10.0.2.2"
 var global: AFGHGlobalParameters? = null
 
+/**
+ * Main activity. In this screen the user
+ * registers the first time they open the
+ * app.
+ */
 class MainActivity : AppCompatActivity() {
 
     private lateinit var globalString: String
     private var registered = false
 
+    /**
+     * If the user is already registered change to
+     * the ChatsActivity. If not, get the global
+     * parameters and allow the user to register.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -34,6 +43,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Generate public and secret keys and register
+     * with a username and phone on the server. Then
+     * change to the ChatsActivity.
+     */
     fun register(view: View) {
         global   = AFGHGlobalParameters(globalString)
         val sk   = AFGHProxyReEncryption.generateSecretKey(global)
@@ -57,6 +71,10 @@ class MainActivity : AppCompatActivity() {
         startActivity<ChatsActivity>()
     }
 
+    /**
+     * Get global parameters from the
+     * server and store them.
+     */
     private fun getGlobal() {
         get("http://$host:8080/") {
             globalString = it
@@ -64,6 +82,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Save the phone, username and the secret key from the
+     * user.
+     */
     private fun save(user: String, phone: String, sks: String) {
         shareString(this, getString(R.string.user_phone), phone)
         shareString(this, getString(R.string.user_name), user)

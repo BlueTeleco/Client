@@ -11,13 +11,24 @@ import kotlinx.android.synthetic.main.activity_new_group.*
 import org.jetbrains.anko.clearTop
 import org.jetbrains.anko.intentFor
 
+/**
+ * Activity to add chats. The user that creates the
+ * chat will be the admin.
+ */
 class NewGroupActivity : AppCompatActivity() {
 
+    /**
+     * Create the activity.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_group)
     }
 
+    /**
+     * Create a group in the server from the
+     * group name and user phone.
+     */
     fun createGroup(view: View) {
         val gname = encodeURL(group_name.text.toString())
         val phone = encodeURL(read(this, getString(R.string.user_phone), "error"))
