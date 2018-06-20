@@ -74,11 +74,13 @@ class ConversationActivity : AppCompatActivity() {
     private fun getMessages() {
         get("http://$host:8080/sincronize/$id/$phone?order=0") {
             val messagesStr = it.split("<--->")
+            val admin = messagesStr[0]
+            val rest = messagesStr.subList(1, messagesStr.lastIndex)
 
-            messagesStr.forEach {
+            rest.forEach {
                 val (author, text) = it.split(":")
 
-                val decrypted = if (name == author) {
+                val decrypted = if (name == admin) {
                     AFGHProxyReEncryption.secondLevelDecryption(decode(text), getSecretKey(), global)
                 } else {
                     AFGHProxyReEncryption.firstLevelDecryption(decode(text), getSecretKey(), global)

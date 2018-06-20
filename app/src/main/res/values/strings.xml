@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">Client</string>
-    <string name="edit_text">Enter your text</string>
-    <string name="send_button">Send</string>
     <string name="register_button">Registrame</string>
     <string name="user_registered">USER_HAS_REGISTERED</string>
     <string name="global_string">GLOBAL_PARAMETERS</string>
@@ -11,8 +9,10 @@
     <string name="user_phone">MY_PHONE</string>
     <string name="new_member">Añadir Usuario</string>
     <string name="user_name">MY_NAME</string>
-    <string name="new_member_phone">Member Phone</string>
     <string name="chat_id">CHAT_ID</string>
     <string name="user_secret">SECRET_KEY</string>
     <string name="selected_chat">SELECTED_CHAT</string>
+    <string name="edit_text">Escribe tu mensaje</string>
+    <string name="send_button">Enviar</string>
+    <string name="new_member_phone">Teléfono de nuevo miembro</string>
 </resources>
