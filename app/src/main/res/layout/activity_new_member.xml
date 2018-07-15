@@ -17,7 +17,7 @@
         android:layout_marginTop="125dp"
         android:ems="10"
         android:hint="@string/new_member_phone"
-        android:inputType="textPersonName"
+        android:inputType="phone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

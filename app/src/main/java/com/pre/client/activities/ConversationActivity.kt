@@ -61,7 +61,7 @@ class ConversationActivity : AppCompatActivity() {
                     val rk = AFGHProxyReEncryption.generateReEncryptionKey(pk, sk, global)
 
                     val params = "phone=${encodeURL(phone)}&chat=$id&rk=${encodeURL(encode(rk))}"
-                    send("PUT", "/add-rekey", params)
+                    send("PUT", "/new-rekey", params)
                 }
             }
         }

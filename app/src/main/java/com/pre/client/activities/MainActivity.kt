@@ -11,7 +11,7 @@ import nics.crypto.proxy.afgh.AFGHGlobalParameters
 import nics.crypto.proxy.afgh.AFGHProxyReEncryption
 import org.jetbrains.anko.startActivity
 
-const val host = "10.0.2.2"
+const val host = "192.168.1.44"
 var global: AFGHGlobalParameters? = null
 
 /**
